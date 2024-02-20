@@ -1,0 +1,62 @@
+import React from 'react';
+import { TextField, Grid } from '@mui/material';
+
+function AddressForm() {
+  const [address, setAddress] = useState({
+    street: '',
+    city: '',
+    state: '',
+    zip: '',
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setAddress((prevAddress) => ({
+      ...prevAddress,
+      [name]: value,
+    }));
+  };
+
+  return (
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <TextField
+          label="Street Address"
+          name="street"
+          value={address.street}
+          onChange={handleChange}
+          fullWidth
+        />
+      </Grid>
+      <Grid item xs={6}>
+        <TextField
+          label="City"
+          name="city"
+          value={address.city}
+          onChange={handleChange}
+          fullWidth
+        />
+      </Grid>
+      <Grid item xs={3}>
+        <TextField
+          label="State"
+          name="state"
+          value={address.state}
+          onChange={handleChange}
+          fullWidth
+        />
+      </Grid>
+      <Grid item xs={3}>
+        <TextField
+          label="ZIP Code"
+          name="zip"
+          value={address.zip}
+          onChange={handleChange}
+          fullWidth
+        />
+      </Grid>
+    </Grid>
+  );
+}
+
+export default AddressForm;
