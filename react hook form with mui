@@ -1,0 +1,64 @@
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { TextField, Grid, Button } from '@mui/material';
+
+function AddressForm() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  
+  const onSubmit = (data) => {
+    console.log(data);
+    // Submit logic here
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            label="Street Address"
+            {...register('street', { required: 'Street address is required' })}
+            error={!!errors.street}
+            helperText={errors.street?.message}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            label="City"
+            {...register('city', { required: 'City is required' })}
+            error={!!errors.city}
+            helperText={errors.city?.message}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            label="State"
+            {...register('state', { required: 'State is required' })}
+            error={!!errors.state}
+            helperText={errors.state?.message}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            label="ZIP Code"
+            {...register('zip', {
+              required: 'ZIP Code is required',
+              pattern: {
+                value: /^\d{5}$/,
+                message: 'Invalid ZIP Code format',
+              },
+            })}
+            error={!!errors.zip}
+            helperText={errors.zip?.message}
+            fullWidth
+          />
+        </Grid>
+      </Grid>
+      <Button type="submit">Submit</Button>
+    </form>
+  );
+}
+
+export default AddressForm;
