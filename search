@@ -1,0 +1,67 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+function SearchApi() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`https://api.example.com/search?q=${query}`);
+        setResults(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    if (query.trim() !== '') {
+      fetchData();
+    } else {
+      setResults([]);
+    }
+  }, [query]);
+
+  const handleChange = (event) => {
+    setQuery(event.target.value);
+  };
+
+  return (
+    <div>
+      <input type="text" value={query} onChange={handleChange} placeholder="Search..." />
+      <ul>
+        {results.map((result) => (
+          <li key={result.id}>{result.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default SearchApi;
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+import React from 'react';
+import SearchApi from './SearchApi';
+
+function App() {
+  return (
+    <div>
+      <h1>Search API Example</h1>
+      <SearchApi />
+    </div>
+  );
+}
+
+export default App;
+
+
+
+
