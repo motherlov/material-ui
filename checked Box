@@ -1,0 +1,28 @@
+import React, { useState } from 'react';
+import { Checkbox, FormControlLabel } from '@mui/material';
+import axios from 'axios';
+
+function MyCheckbox() {
+  const [checked, setChecked] = useState(false);
+
+  const handleChange = async (event) => {
+    setChecked(event.target.checked);
+    try {
+      const response = await axios.post('https://example.com/api/endpoint', {
+        checked: event.target.checked,
+      });
+      console.log(response.data); // Handle response data as needed
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  return (
+    <FormControlLabel
+      control={<Checkbox checked={checked} onChange={handleChange} />}
+      label="Check me"
+    />
+  );
+}
+
+export default MyCheckbox;
