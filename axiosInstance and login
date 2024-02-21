@@ -48,10 +48,14 @@ export default function Login2() {
    const navigate =useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
+
+
      AxiosInstance.post(`/login`,{
         email:email,
         password:password 
      },
+
+
 
 
     //  {
