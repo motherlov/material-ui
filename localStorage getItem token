@@ -1,0 +1,26 @@
+import axios from 'axios';
+token = localStorage.getItem('token');
+
+const axiosInstance = axios.create({
+  baseURL: 'https://example.com/api',
+  headers: {
+    'Content-Type': 'application/json',
+    //Referer: 'https://www.example.com',//  header is set to 'https://www.example.com' to indicate the referring URL of the request
+   // Accept: 'application/json', // to indicate that the client expects a JSON response from the server
+  //'content-type': 'text/json'
+ //'Content-Type': 'multipart/form-data', // file(image) insert time use
+    Authorization: `Bearer ${token}`,   //header is set with the token retrieved from localStorage
+  },
+});
+
+
+
+
+// Example usage
+axiosInstance.get('/endpoint')
+  .then(response => {
+    // Handle response
+  })
+  .catch(error => {
+    // Handle error
+  });
