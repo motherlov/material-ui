@@ -1,0 +1,103 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+
+const RegistrationForm = () => {
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    password: '',
+    address: '',
+    image: null,
+    signature: null,
+    paymentInfo: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: files[0],
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const form = new FormData();
+      form.append('name', formData.name);
+      form.append('email', formData.email);
+      form.append('phone', formData.phone);
+      form.append('password', formData.password);
+      form.append('address', formData.address);
+      form.append('image', formData.image);
+      form.append('signature', formData.signature);
+      form.append('paymentInfo', formData.paymentInfo);
+
+      // Make API call with form data
+      const response = await axios.post('https://example.com/api/register', form);
+      console.log('Registration successful:', response.data);
+
+      // Reset form data
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        password: '',
+        address: '',
+        image: null,
+        signature: null,
+        paymentInfo: '',
+      });
+
+      // Move to next step or complete registration
+      if (step === 3) {
+        setStep(1); // Reset to first step
+      } else {
+        setStep(step + 1); // Move to next step
+      }
+    } catch (error) {
+      console.error('Registration failed:', error);
+    }
+  };
+
+  return (
+    <div>
+      <h1>Registration Form - Step {step}</h1>
+      <form onSubmit={handleSubmit}>
+        {step === 1 && (
+          <>
+            <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} />
+            <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} />
+            <input type="tel" name="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} />
+            <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} />
+            <input type="text" name="address" placeholder="Address" value={formData.address} onChange={handleChange} />
+          </>
+        )}
+        {step === 2 && (
+          <>
+            <input type="file" name="image" accept="image/*" onChange={handleFileChange} />
+            <input type="file" name="signature" accept="image/*" onChange={handleFileChange} />
+          </>
+        )}
+        {step === 3 && (
+          <>
+            <input type="text" name="paymentInfo" placeholder="Payment Info" value={formData.paymentInfo} onChange={handleChange} />
+          </>
+        )}
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
+};
+
+export default RegistrationForm;
