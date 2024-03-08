@@ -1,0 +1,32 @@
+ <p>
+      {/* ///////////////////////    dangerouslySetInnerHTML    ///////////// */}
+
+      <div dangerouslySetInnerHTML={{ __html: blogDetails?.postText,}} />
+
+       {/* ////////////////////////// end /////////////////////////////////////// */}         
+ </p>
+
+
+
+////////////////////////////////////////////////////////////////////
+
+
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+function MyComponent() {
+  const [htmlContent, setHtmlContent] = useState('');
+
+  useEffect(() => {
+    axios.get('https://api.example.com/content')
+      .then(response => {
+        setHtmlContent(response.data.html);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
+  return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />;
+}
